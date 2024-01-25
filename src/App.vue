@@ -1,23 +1,83 @@
 <template>
   <div class="container">
-  <Header title="Task Tracker"/>
+    <Header
+      @toggle-add-task="toggleAddTask"
+      :show-add-task="showAddTask"
+      title="Task Tracker"
+    />
+    <Tasks
+      @toggle-reminder="toggleReminder"
+      @delete-task="deleteTask"
+      :tasks="tasks"
+    />
+    <div v-if="showAddTask">
+      <AddTask @add-task="addTask" />
+    </div>
   </div>
 </template>
 
 <script>
-
-import Header from './components/Header.vue'
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Header
-  }
-}
+    Header,
+    Tasks,
+    AddTask,
+  },
+  data() {
+    return {
+      tasks: [],
+      showAddTask: false,
+    };
+  },
+  methods: {
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask;
+    },
+    addTask(newTask) {
+      this.tasks.push(newTask);
+    },
+    toggleReminder(id) {
+      const task = this.tasks.find((task) => task.id == id);
+      if (task) {
+        task.reminder = !task.reminder;
+      }
+    },
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((element) => element.id != id);
+    },
+  },
+  created() {
+    this.tasks = [
+      {
+        id: 1,
+        text: "Doctors Appointment",
+        day: "March 1st at 2:30pm",
+        reminder: true,
+      },
+      {
+        id: 2,
+        text: "Univerity Quiz",
+        day: "March 1st at 5:30pm",
+        reminder: true,
+      },
+      {
+        id: 3,
+        text: "Date with guuurl",
+        day: "March 15st at 8:30pm",
+        reminder: false,
+      },
+    ];
+  },
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 
 * {
   box-sizing: border-box;
@@ -26,7 +86,7 @@ export default {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container {
