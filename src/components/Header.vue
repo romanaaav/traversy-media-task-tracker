@@ -1,7 +1,11 @@
 <template>
     <header>
         <h1>{{title}}</h1>
-        <Button @btn-click="this.$emit('toggle-add-task')" class="btn" :text="showAddTask? 'Close':'Add task'" :color="showAddTask? 'red':'green'"></Button>
+        <Button @btn-click="this.$emit('toggle-add-task')" 
+        v-show="homePage"
+        class="btn" 
+        :text="showAddTask? 'Close':'Add task'" 
+        :color="showAddTask? 'red':'green'"/>
     </header>
 </template>
 
@@ -26,6 +30,11 @@ export default {
     methods: {
         addTask() {
             console.log('Add task WIP');
+        }
+    },
+    computed: {
+        homePage() {
+            return this.$route.path === '/';
         }
     },
     emits: ['toggle-add-task']

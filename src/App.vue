@@ -5,19 +5,14 @@
       :show-add-task="showAddTask"
       title="Task Tracker"
     />
-    <Tasks
-      @toggle-reminder="toggleReminder"
-      @delete-task="deleteTask"
-      :tasks="tasks"
-    />
-    <div v-if="showAddTask">
-      <AddTask @add-task="addTask" />
-    </div>
+    <router-view :show-add-task="showAddTask"></router-view>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 
@@ -27,68 +22,18 @@ export default {
     Header,
     Tasks,
     AddTask,
+    Footer,
   },
   data() {
     return {
-      tasks: [],
-      showAddTask: false,
-    };
+      showAddTask: false
+    }
   },
   methods: {
-    async getAllTasks() {
-      const response = await fetch('api/tasks');
-      return await response.json();
-    },
-    async getTaskById(id) {
-      const response = await fetch(`api/tasks/${id}`);
-      return await response.json();
-    },
-    async postNewTask(task) {
-      const response = await fetch('api/tasks',{
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(task)
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add');
-      }
-      const addedTask = await response.json();
-      addedTask.id = addedTask.id+"";
-      return addedTask;
-    },
-    async sendDeleteTask(taskId) {
-      const response = await fetch(`api/tasks/${taskId+""}`,{
-        method: "DELETE",
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
-      return await response.json();
-    },
     toggleAddTask() {
       this.showAddTask = !this.showAddTask;
     },
-    async addTask(newTask) {
-      const response = await this.postNewTask(newTask)
-      this.tasks.push(response)
-    },
-    toggleReminder(id) {
-      const task = this.tasks.find((task) => task.id == id);
-      if (task) {
-        task.reminder = !task.reminder;
-      }
-    },
-    async deleteTask(id) {
-      const response = await this.sendDeleteTask(id);
-      this.tasks = this.tasks.filter((element) => element.id != id);
-    },
-  },
-  async created() {
-    this.tasks = await this.getAllTasks();
-  },
+  }  
 };
 </script>
 

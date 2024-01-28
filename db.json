@@ -9,25 +9,7 @@
     {
       "id": "67979",
       "text": "New Task should create ID 2",
-      "day": "jejeje",
-      "reminder": false
-    },
-    {
-      "id": "79350",
-      "text": "Another task",
-      "day": "juejue",
-      "reminder": false
-    },
-    {
-      "id": "14195",
-      "text": "Nuevo elemento",
-      "day": "Nuevo elemento",
-      "reminder": false
-    },
-    {
-      "id": 16372,
-      "text": "MALUQUERA",
-      "day": "JODIA PRESTADA",
+      "day": "Today",
       "reminder": false
     }
   ]
